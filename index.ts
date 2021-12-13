@@ -7,8 +7,8 @@ dotenv.config();
 
 const app = express();
 
-if(process.env.NODE_ENV === 'production'){
-    app.use(servestatic(path.join(path.resolve(), 'dist')));
-}
+app.use(servestatic(path.join(path.resolve(), 'dist')));
+
+app.listen(8080);
 
 module.exports = app;

@@ -7,8 +7,12 @@ selenium-debug.log
 chromedriver.log
 geckodriver.log
 
-src/*.js
+*/*/*.js
+*/*.js
+*/*/*.js.map
+*/*.js.map
 index.js
+index.js.map
 
 
 # local env files
