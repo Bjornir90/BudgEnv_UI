@@ -18,7 +18,7 @@ export default Vue.extend({
 	name: "Transactions",
 
 	computed: {
-		...mapState(["categories"]),
+		...mapState(["categories", "token"]),
 	},
 
 	data: () => {
@@ -57,6 +57,7 @@ export default Vue.extend({
 					start_date: aMonthAgo.toISOString().split("T")[0],
 					end_date: currentDay.toISOString().split("T")[0],
 				},
+				headers: { Authorization: `Bearer ${this.token}` },
 			})
 			.then(
 				(response) => {

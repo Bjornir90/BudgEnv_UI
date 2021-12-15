@@ -9,7 +9,9 @@
 
 			<v-spacer></v-spacer>
 
-			<v-btn text to="/login"><mdicon name="lock" />Login</v-btn>
+			<v-btn text to="/login" v-if="!isLoggedIn"
+				><mdicon name="lock" />Login</v-btn
+			>
 		</v-app-bar>
 
 		<v-main>
@@ -20,6 +22,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { mapState } from "vuex";
 
 export default Vue.extend({
 	name: "App",
@@ -29,5 +32,12 @@ export default Vue.extend({
 	data: () => ({
 		//
 	}),
+
+	computed: {
+		isLoggedIn() {
+			return this.token !== "";
+		},
+		...mapState(["token"]),
+	},
 });
 </script>
