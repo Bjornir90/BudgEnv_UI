@@ -47,11 +47,15 @@ export default Vue.extend({
 	},
 
 	mounted: function () {
+		const currentDay = new Date();
+		let aMonthAgo = new Date();
+		aMonthAgo.setDate(currentDay.getDate() - 30);
+
 		this.$http
 			.get(`${process.env.VUE_APP_API_URL}/transactions/range`, {
 				params: {
-					start_date: "2021-12-01",
-					end_date: "2021-12-15",
+					start_date: aMonthAgo.toISOString().split("T")[0],
+					end_date: currentDay.toISOString().split("T")[0],
 				},
 			})
 			.then(
