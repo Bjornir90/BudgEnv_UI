@@ -14,6 +14,12 @@ export default new Vuex.Store({
     setToken(state, token: string) {
       state.token = token;
     },
+    setCategories(state, categories: Category[]) {
+      state.categories = categories;
+    },
+    setMonthlyAffectations(state, affectations: MonthlyAffectation[]) {
+      state.monthlyAffectations = affectations;
+    }
   },
   actions: {},
   modules: {},

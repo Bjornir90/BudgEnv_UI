@@ -6,8 +6,7 @@
           :src="require('../assets/logo.svg')"
           class="my-3"
           contain
-          height="200"
-        />
+          height="200" />
       </v-col>
 
       <v-col class="mb-4">
@@ -31,8 +30,7 @@
             :key="i"
             :href="next.href"
             class="subheading mx-3"
-            target="_blank"
-          >
+            target="_blank">
             {{ next.text }}
           </a>
         </v-row>
@@ -47,8 +45,7 @@
             :key="i"
             :href="link.href"
             class="subheading mx-3"
-            target="_blank"
-          >
+            target="_blank">
             {{ link.text }}
           </a>
         </v-row>
@@ -63,8 +60,7 @@
             :key="i"
             :href="eco.href"
             class="subheading mx-3"
-            target="_blank"
-          >
+            target="_blank">
             {{ eco.text }}
           </a>
         </v-row>
