@@ -1,4 +1,4 @@
 module.exports = {
   transpileDependencies: ["vuetify"],
-  lintOnSave: true
+  lintOnSave: true,
 };
