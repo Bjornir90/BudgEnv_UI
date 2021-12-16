@@ -24,6 +24,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { mapState } from "vuex";
+import { Category, MonthlyAffectation } from "./common";
 
 export default Vue.extend({
   name: "App",
@@ -49,15 +50,19 @@ export default Vue.extend({
   },
 
   updated: function () {
-    this.$http.get(`${process.env.VUE_APP_API_URL}/budgets/default`).then(
-      (response) => {
-        this.$store.commit("setCategories", response.data.categories);
-      },
-      (err) => {
-        console.log(err.data);
-      }
-    );
-    this.$http
+    if((this.categories as Category[]).length === 0){
+      this.$http.get(`${process.env.VUE_APP_API_URL}/budgets/default`).then(
+        (response) => {
+          this.$store.commit("setCategories", response.data.categories);
+        },
+        (err) => {
+          console.log(err.data);
+        }
+      );
+    }
+
+    if((this.monthlyAffectations as MonthlyAffectation[]).length === 0){
+      this.$http
       .get(
         `${process.env.VUE_APP_API_URL}/affectations/month/${new Date()
           .toISOString()
@@ -71,6 +76,7 @@ export default Vue.extend({
           console.log(err.data);
         }
       );
+    }
   },
 });
 </script>
