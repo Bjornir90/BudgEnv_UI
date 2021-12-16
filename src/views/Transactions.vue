@@ -10,9 +10,15 @@
           <v-spacer></v-spacer>
           <v-btn class="accent" @click="dialog = true">New transaction</v-btn>
         </v-toolbar>
-        <v-dialog v-model="dialog">
-          <v-card>
-            <v-card-title>Create new transaction</v-card-title>
+        <v-dialog v-model="dialog" max-width="500">
+          <v-card class="primary">
+            <v-toolbar class="secondary">
+              <v-toolbar-title>Create new transaction </v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn text @click="dialog = false" rounded
+                ><mdicon name="close"
+              /></v-btn>
+            </v-toolbar>
             <v-card-text>
               <v-text-field
                 v-model="newTransaction.payee"
