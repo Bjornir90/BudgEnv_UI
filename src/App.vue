@@ -35,12 +35,12 @@ export default Vue.extend({
 
   computed: {
     isLoggedIn() {
-      return this.token !== "";
+      return this.$cookies.isKey("budgenvtoken");
     },
-    ...mapState(["token", "categories", "monthlyAffectations"]),
+    ...mapState(["categories", "monthlyAffectations"]),
   },
 
-  mounted: function () {
+  updated: function () {
     this.$http.get(`${process.env.VUE_APP_API_URL}/budgets/default`).then(
       (response) => {
         this.$store.commit("setCategories", response.data.categories);

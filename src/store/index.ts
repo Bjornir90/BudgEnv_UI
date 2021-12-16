@@ -8,12 +8,8 @@ export default new Vuex.Store({
   state: {
     categories: [] as Category[],
     monthlyAffectations: [] as MonthlyAffectation[],
-    token: "",
   },
   mutations: {
-    setToken(state, token: string) {
-      state.token = token;
-    },
     setCategories(state, categories: Category[]) {
       state.categories = categories;
     },

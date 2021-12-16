@@ -7,7 +7,8 @@
       <v-text-field
         label="Password"
         v-model="password"
-        :type="'password'"></v-text-field>
+        :type="'password'"
+        @keyup.enter="login"></v-text-field>
       <v-card-actions>
         <v-btn text class="accent float-right" elevation="3" @click="login">
           Send
@@ -51,6 +52,7 @@ export default Vue.extend({
               60 * 60 * 24 * 7 //One week
             );
             this.loginSuccess = true;
+            setTimeout(() => this.$router.push({ name: "/" }), 500);
           },
           (err) => {
             this.loginMessage = err.data.message;

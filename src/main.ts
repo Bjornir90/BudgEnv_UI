@@ -4,7 +4,7 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import router from "./router";
 import VueResource from "vue-resource";
-import VueCookies from "vue-cookies";
+import VueCookies from "vue-cookies-reactive";
 import mdiVue from "mdi-vue/v2";
 import * as mdijs from "@mdi/js";
 import dotenv from "dotenv";
