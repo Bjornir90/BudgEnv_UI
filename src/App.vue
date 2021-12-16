@@ -12,6 +12,7 @@
       <v-btn text to="/login" v-if="!isLoggedIn"
         ><mdicon name="lock" />Login</v-btn
       >
+      <v-btn text v-else @click="logOut">Log out</v-btn>
     </v-app-bar>
 
     <v-main>
@@ -38,6 +39,13 @@ export default Vue.extend({
       return this.$cookies.isKey("budgenvtoken");
     },
     ...mapState(["categories", "monthlyAffectations"]),
+  },
+
+  methods: {
+    logOut () {
+      this.$cookies.remove("budgenvtoken");
+      this.$router.push("/login");
+    }
   },
 
   updated: function () {
