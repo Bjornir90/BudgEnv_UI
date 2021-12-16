@@ -19,7 +19,7 @@ export default new Vuex.Store({
     },
     setMonthlyAffectations(state, affectations: MonthlyAffectation[]) {
       state.monthlyAffectations = affectations;
-    }
+    },
   },
   actions: {},
   modules: {},
