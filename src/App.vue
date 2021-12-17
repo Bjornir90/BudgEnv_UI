@@ -1,18 +1,24 @@
 <template>
   <v-app>
     <v-app-bar app class="primary">
-      <v-btn text to="/transactions"><mdicon name="format-list-bulleted" class="mr-2"/>Transactions</v-btn>
+      <v-btn text to="/transactions"
+        ><mdicon name="format-list-bulleted" class="mr-2" />Transactions</v-btn
+      >
 
       <v-spacer></v-spacer>
 
-      <v-btn text to="/"><mdicon name="folder-open" class="mr-2"/>BudgEnv</v-btn>
+      <v-btn text to="/"
+        ><mdicon name="folder-open" class="mr-2" />BudgEnv</v-btn
+      >
 
       <v-spacer></v-spacer>
 
       <v-btn text to="/login" v-if="!isLoggedIn"
-        ><mdicon name="login" class="mr-2"/>Login</v-btn
+        ><mdicon name="login" class="mr-2" />Login</v-btn
       >
-      <v-btn text v-else @click="logOut"><mdicon name="logout" class="mr-2"/>Log out</v-btn>
+      <v-btn text v-else @click="logOut"
+        ><mdicon name="logout" class="mr-2" />Log out</v-btn
+      >
     </v-app-bar>
 
     <v-main>
@@ -43,14 +49,14 @@ export default Vue.extend({
   },
 
   methods: {
-    logOut () {
+    logOut() {
       this.$cookies.remove("budgenvtoken");
       this.$router.push("/login");
-    }
+    },
   },
 
   updated: function () {
-    if((this.categories as Category[]).length === 0){
+    if ((this.categories as Category[]).length === 0) {
       this.$http.get(`${process.env.VUE_APP_API_URL}/budgets/default`).then(
         (response) => {
           this.$store.commit("setCategories", response.data.categories);
@@ -61,21 +67,21 @@ export default Vue.extend({
       );
     }
 
-    if((this.monthlyAffectations as MonthlyAffectation[]).length === 0){
+    if ((this.monthlyAffectations as MonthlyAffectation[]).length === 0) {
       this.$http
-      .get(
-        `${process.env.VUE_APP_API_URL}/affectations/month/${new Date()
-          .toISOString()
-          .substring(0, 7)}` //Retrieve only the month from the date
-      )
-      .then(
-        (response) => {
-          this.$store.commit("setMonthlyAffectations", response.data);
-        },
-        (err) => {
-          console.log(err.data);
-        }
-      );
+        .get(
+          `${process.env.VUE_APP_API_URL}/affectations/month/${new Date()
+            .toISOString()
+            .substring(0, 7)}` //Retrieve only the month from the date
+        )
+        .then(
+          (response) => {
+            this.$store.commit("setMonthlyAffectations", response.data);
+          },
+          (err) => {
+            console.log(err.data);
+          }
+        );
     }
   },
 });
