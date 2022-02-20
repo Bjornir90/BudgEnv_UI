@@ -1,8 +1,12 @@
 <template>
   <v-container>
-    <v-alert type="error" v-if="transactionsLoadFailed">{{
-      failMessage
-    }}</v-alert>
+    <v-alert
+      v-if="transactionsLoadFailed"
+      type="error">
+      {{
+        failMessage
+      }}
+    </v-alert>
     <v-data-table
       :headers="headers"
       :items="displayTransactions"
@@ -10,56 +14,76 @@
       <template v-slot:top>
         <v-toolbar>
           <v-toolbar-title>Transactions</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-btn class="accent" @click="dialog = true">New transaction</v-btn>
+          <v-spacer />
+          <v-btn
+            class="accent"
+            @click="dialog = true">
+            New transaction
+          </v-btn>
         </v-toolbar>
-        <v-dialog v-model="dialog" max-width="500">
+        <v-dialog
+          v-model="dialog"
+          max-width="500">
           <v-card class="primary">
             <v-toolbar class="secondary">
               <v-toolbar-title>Create new transaction</v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-btn text @click="dialog = false" rounded
-                ><mdicon name="close"
-              /></v-btn>
+              <v-spacer />
+              <v-btn
+                text
+                rounded
+                @click="dialog = false">
+                <mdicon
+                  name="close" />
+              </v-btn>
             </v-toolbar>
             <v-card-text>
               <v-text-field
                 v-model="newTransaction.payee"
                 label="Payee"
-                :rules="[rules.required]"></v-text-field>
+                :rules="[rules.required]" />
               <v-text-field
                 v-model="newTransaction.memo"
-                label="Memo"></v-text-field>
+                label="Memo" />
               <v-text-field
                 v-model="newTransaction.amount"
                 label="Amount (cents)"
-                :rules="[rules.required]"></v-text-field>
+                :rules="[rules.required]" />
 
-              <v-menu v-model="dateMenu" :close-on-content-click="false">
+              <v-menu
+                v-model="dateMenu"
+                :close-on-content-click="false">
                 <v-text-field
-                  readonly
                   v-model="newTransaction.date"
-                  @focus="dateMenu = true"
-                  :rules="[rules.required]"></v-text-field>
+                  readonly
+                  :rules="[rules.required]"
+                  @focus="dateMenu = true" />
                 <v-date-picker
                   v-model="newTransaction.date"
-                  @input="dateMenu = false"></v-date-picker>
+                  @input="dateMenu = false" />
               </v-menu>
 
               <v-select
+                v-model="newTransaction.categoryName"
                 :items="categoryNames"
-                label="Category"
-                v-model="newTransaction.categoryName"></v-select>
-              <v-alert type="error" v-if="invalidCategory"
-                >Category is not valid</v-alert
-              >
+                label="Category" />
+              <v-alert
+                v-if="invalidCategory"
+                type="error">
+                Category is not valid
+              </v-alert>
             </v-card-text>
             <v-card-actions>
-              <v-btn @click="submitNewTransaction" color="accent">Create</v-btn>
+              <v-btn
+                color="accent"
+                @click="submitNewTransaction">
+                Create
+              </v-btn>
             </v-card-actions>
-            <v-alert type="error" v-if="failCreate"
-              >Could not create transaction</v-alert
-            >
+            <v-alert
+              v-if="failCreate"
+              type="error">
+              Could not create transaction
+            </v-alert>
           </v-card>
         </v-dialog>
       </template>

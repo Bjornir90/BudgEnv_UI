@@ -1,21 +1,40 @@
 <template>
   <v-container>
-    <v-card class="secondary px-8 py-4 mx-auto" max-width="300" elevation="5">
-      <v-card-title class="my-2">Login</v-card-title>
-      <v-divider class="mb-4"></v-divider>
-      <v-text-field label="Username" v-model="username"></v-text-field>
+    <v-card
+      class="secondary px-8 py-4 mx-auto"
+      max-width="300"
+      elevation="5">
+      <v-card-title class="my-2">
+        Login
+      </v-card-title>
+      <v-divider class="mb-4" />
       <v-text-field
-        label="Password"
+        v-model="username"
+        label="Username" />
+      <v-text-field
         v-model="password"
+        label="Password"
         :type="'password'"
-        @keyup.enter="login"></v-text-field>
+        @keyup.enter="login" />
       <v-card-actions>
-        <v-btn text class="accent float-right" elevation="3" @click="login">
+        <v-btn
+          text
+          class="accent float-right"
+          elevation="3"
+          @click="login">
           Send
         </v-btn>
       </v-card-actions>
-      <v-alert type="success" v-if="loginSuccess">Login successful</v-alert>
-      <v-alert type="error" v-if="loginFail">{{ loginMessage }}</v-alert>
+      <v-alert
+        v-if="loginSuccess"
+        type="success">
+        Login successful
+      </v-alert>
+      <v-alert
+        v-if="loginFail"
+        type="error">
+        {{ loginMessage }}
+      </v-alert>
     </v-card>
   </v-container>
 </template>
