@@ -11,7 +11,7 @@
       :headers="headers"
       :items="displayTransactions"
       :items-per-page="15">
-      <template v-slot:top>
+      <template #top>
         <v-toolbar>
           <v-toolbar-title>Transactions</v-toolbar-title>
           <v-spacer />
@@ -105,7 +105,7 @@ type TransactionDisplay = {
 };
 
 export default Vue.extend({
-  name: "Transactions",
+  name: "TransactionsList",
 
   computed: {
     getCategoryFromName() {
@@ -186,12 +186,7 @@ export default Vue.extend({
     );
 
     this.$http
-      .get(`${process.env.VUE_APP_API_URL}/transactions/range`, {
-        params: {
-          start_date: aMonthAgo.toISOString().split("T")[0],
-          end_date: currentDay.toISOString().split("T")[0],
-        },
-      })
+      .get(`${process.env.VUE_APP_API_URL}/transactions/last/15`)
       .then(
         (response) => {
           this.transactions = response.data;
