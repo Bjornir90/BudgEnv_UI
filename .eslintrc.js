@@ -15,9 +15,11 @@ module.exports = {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "vue/block-tag-newline": ["error"],
-    "vue/html-closing-bracket-newline": ["error",
-    {
+    "vue/html-closing-bracket-newline": ["error", {
       "multiline": "never"
+    }],
+    "vue/valid-v-slot": ["error", {
+      "allowModifiers": true
     }]
   },
   overrides: [
