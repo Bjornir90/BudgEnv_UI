@@ -107,30 +107,6 @@ type TransactionDisplay = {
 export default Vue.extend({
   name: "TransactionsList",
 
-  computed: {
-    getCategoryFromName() {
-      return (name: string) =>
-        (this.categories as Category[]).find(
-          (category) => category.name === name
-        );
-    },
-    displayTransactions(): TransactionDisplay[] {
-      return this.transactions.map((transaction) => {
-        const categoryName = (this.categories as Category[]).find(
-          (category) => category.id === transaction.categoryId
-        )?.name;
-        return {
-          payee: transaction.payee,
-          date: transaction.date,
-          memo: transaction.memo,
-          amount: transaction.amount,
-          categoryName: categoryName || "Missing category name",
-        };
-      }, this);
-    },
-    ...mapState(["categories", "token"]),
-  },
-
   data: () => {
     return {
       transactions: [] as Transaction[],
@@ -174,6 +150,30 @@ export default Vue.extend({
       invalidCategory: false,
       failCreate: false,
     };
+  },
+
+  computed: {
+    getCategoryFromName() {
+      return (name: string) =>
+        (this.categories as Category[]).find(
+          (category) => category.name === name
+        );
+    },
+    displayTransactions(): TransactionDisplay[] {
+      return this.transactions.map((transaction) => {
+        const categoryName = (this.categories as Category[]).find(
+          (category) => category.id === transaction.categoryId
+        )?.name;
+        return {
+          payee: transaction.payee,
+          date: transaction.date,
+          memo: transaction.memo,
+          amount: transaction.amount,
+          categoryName: categoryName || "Missing category name",
+        };
+      }, this);
+    },
+    ...mapState(["categories", "token"]),
   },
 
   mounted: function () {
