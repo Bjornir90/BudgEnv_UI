@@ -5,23 +5,26 @@
       :items="categories"
       class="elevation-1"
       show-expand>
-      <!--<template #item.amount="{ item }">
-        <v-chip class="primary">
-          {{ item.amount }}
-        </v-chip>
-      </template>-->
 
-      <template #item.amount="props">
-        {{ makeAmountPrintable(props.item.amount) }}
+      <template #item.amount="{ item }">
+        <v-chip class="primary">
+          {{ makeAmountPrintable(item.amount) }}
+        </v-chip>
       </template>
 
-      <template #item.name="props">
+      <template #item.affected="{ item }">
+        <v-chip class="primary">
+          {{ makeAmountPrintable(computeAffectedAmount(item)) }}
+        </v-chip>
+      </template>
+
+      <template #item.name="{item}">
         <v-edit-dialog
-          :return-value.sync="props.item.name">
-          {{ props.item.name }}
+          :return-value.sync="item.name">
+          {{ item.name }}
           <template #input>
             <v-text-field
-              v-model="props.item.name"
+              v-model="item.name"
               label="Edit name"
               single-line />
           </template>
@@ -43,13 +46,13 @@
 <script lang="ts">
 import Vue from "vue";
 import { mapState } from "vuex";
-import { Category, GoalType, Transaction } from "../common";
+import { Category, GoalType, MonthlyAffectation, Transaction } from "../common";
 
 export default Vue.extend({
   name: "HomePage",
 
   computed: {
-      ...mapState(["categories"])
+      ...mapState(["categories", "monthlyAffectations"]),
   },
 
   data: () => {
@@ -60,15 +63,29 @@ export default Vue.extend({
                 value: "name"
               },
               {
-                text: "Amount stored",
+                text: "Amount available",
                 value: "amount"
+              },
+              {
+                text: "Amount affected",
+                value: "affected"
               },
               { 
                 text: '', 
                 value: 'data-table-expand' 
               }
-          ]
+          ],
       }
+  },
+
+  methods:{
+    computeAffectedAmount: function (category: Category): number {
+      if(this.monthlyAffectations.length === 0){
+        return 0;
+      }
+      let affectationsForCategory = (this.monthlyAffectations as MonthlyAffectation[]).filter((monthlyAffectation) => monthlyAffectation.affectation.categoryId === category.id);
+      return affectationsForCategory.map((value) => value.affectation.amount).reduce((previousValue, currentValue) => previousValue + currentValue);
+    }
   }
 });
 </script>
