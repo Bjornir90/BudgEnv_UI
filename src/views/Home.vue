@@ -3,29 +3,39 @@
     <v-data-table
       :headers="headers"
       :items="categories"
-      class="elevation-1" show-expand>
+      class="elevation-1"
+      show-expand>
       <!--<template #item.amount="{ item }">
         <v-chip class="primary">
           {{ item.amount }}
         </v-chip>
       </template>-->
 
-      <template v-slot:item.name="props">
+      <template #item.amount="props">
+        {{ makeAmountPrintable(props.item.amount) }}
+      </template>
+
+      <template #item.name="props">
         <v-edit-dialog
-          :return-value.sync="props.item.name"
-        >
+          :return-value.sync="props.item.name">
           {{ props.item.name }}
-          <template v-slot:input>
+          <template #input>
             <v-text-field
               v-model="props.item.name"
-              label="Edit"
-              single-line
-            ></v-text-field>
+              label="Edit name"
+              single-line />
           </template>
         </v-edit-dialog>
       </template>
 
-
+      <template #expanded-item="{ headers, item }">
+        <td :colspan="headers.length">
+          <v-text-field
+            v-model="item.note"
+            label="Edit memo"
+            single-line />
+        </td>
+      </template>
     </v-data-table>
   </v-container>
 </template>

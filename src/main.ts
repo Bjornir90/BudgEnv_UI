@@ -27,6 +27,13 @@ Vue.http.interceptors.push((request: Request) => {
     );
 });
 
+Vue.mixin({
+  methods: {
+    //Method to use to print all money amounts, to not show amount in cent as stored in database
+    makeAmountPrintable: (amount: number) => amount/100.0
+  }
+});
+
 new Vue({
   router,
   store,
