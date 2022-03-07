@@ -41,6 +41,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { User } from "../common";
 export default Vue.extend({
   name: "LoginPortal",
   data: () => {
@@ -58,7 +59,7 @@ export default Vue.extend({
       this.loginFail = false;
       this.loginSuccess = false;
       this.$http
-        .post(`${process.env.VUE_APP_API_URL}/token`, {
+        .post(`${process.env.VUE_APP_API_URL}/tokens`, {
           password: this.password,
           username: this.username,
         })
@@ -70,8 +71,19 @@ export default Vue.extend({
               token,
               60 * 60 * 24 * 7 //One week
             );
-            this.loginSuccess = true;
-            setTimeout(() => this.$router.push({ name: "/" }), 500);
+            this.$http.get(`${process.env.VUE_APP_API_URL}/users/${this.username}`).then(res => {
+              this.$http.get(`${process.env.VUE_APP_API_URL}/budgets/${(res.data as User).defaultBudgetKey}`).then(resBudget => {
+                this.$store.commit("setCurrentBudget", resBudget.data);
+                this.loginSuccess = true;
+                setTimeout(() => this.$router.push({ name: "/" }), 500);
+              }, errBudget => {
+                this.loginMessage = errBudget.data.message;
+                this.loginFail = true;
+              });
+            }, err => {
+              this.loginMessage = err.data.message;
+              this.loginFail = true;
+            });
           },
           (err) => {
             this.loginMessage = err.data.message;

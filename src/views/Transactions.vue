@@ -162,7 +162,7 @@ export default Vue.extend({
     displayTransactions(): TransactionDisplay[] {
       return this.transactions.map((transaction) => {
         const categoryName = (this.categories as Category[]).find(
-          (category) => category.id === transaction.categoryId
+          (category) => category.key === transaction.categoryId
         )?.name;
         return {
           payee: transaction.payee,
@@ -173,7 +173,7 @@ export default Vue.extend({
         };
       }, this);
     },
-    ...mapState(["categories", "token"]),
+    ...mapState(["categories", "token", "currentBudget"]),
   },
 
   mounted: function () {
@@ -186,7 +186,7 @@ export default Vue.extend({
     );
 
     this.$http
-      .get(`${process.env.VUE_APP_API_URL}/transactions/last/15`)
+      .get(`${process.env.VUE_APP_API_URL}/budgets/${this.currentBudget.key}/transactions/last/15`)
       .then(
         (response) => {
           this.transactions = response.data;
@@ -217,7 +217,8 @@ export default Vue.extend({
         date: this.newTransaction.date,
         payee: this.newTransaction.payee,
         memo: this.newTransaction.memo,
-        categoryId: category.id,
+        categoryId: category.key,
+        budgetId: this.currentBudget.key
       };
       this.$http
         .post(`${process.env.VUE_APP_API_URL}/transactions`, transaction)

@@ -50,7 +50,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { mapState } from "vuex";
-import { Category, MonthlyAffectation } from "./common";
+import { Category, MonthlyAffectation, Budget } from "./common";
 
 export default Vue.extend({
   name: "App",
@@ -65,14 +65,14 @@ export default Vue.extend({
     isLoggedIn() {
       return this.$cookies.isKey("budgenvtoken");
     },
-    ...mapState(["categories", "monthlyAffectations"]),
+    ...mapState(["categories", "monthlyAffectations", "currentBudget", "budgets"]),
   },
 
   updated: function () {
     if ((this.categories as Category[]).length === 0) {
-      this.$http.get(`${process.env.VUE_APP_API_URL}/budgets/default`).then(
+      this.$http.get(`${process.env.VUE_APP_API_URL}/budgets/${this.currentBudget.key}/categories`).then(
         (response) => {
-          this.$store.commit("setCategories", response.data.categories);
+          this.$store.commit("setCategories", response.data);
         },
         (err) => {
           console.log(err.data);
@@ -83,7 +83,7 @@ export default Vue.extend({
     if ((this.monthlyAffectations as MonthlyAffectation[]).length === 0) {
       this.$http
         .get(
-          `${process.env.VUE_APP_API_URL}/affectations/month/${new Date()
+          `${process.env.VUE_APP_API_URL}/budgets/${this.currentBudget.key}/affectations/month/${new Date()
             .toISOString()
             .substring(0, 7)}` //Retrieve only the month from the date
         )
@@ -95,6 +95,17 @@ export default Vue.extend({
             console.log(err.data);
           }
         );
+    }
+
+    if((this.budgets as Budget[]).length === 0) {
+      this.$http.get(`${process.env.VUE_APP_API_URL}/budgets`).then(
+        res => {
+          this.$store.commit("setBudgets", res.data);
+        },
+        err => {
+          console.log(err.data);
+        }
+      );
     }
   },
 

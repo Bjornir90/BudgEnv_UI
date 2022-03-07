@@ -83,7 +83,7 @@ export default Vue.extend({
       if(this.monthlyAffectations.length === 0){
         return 0;
       }
-      let affectationsForCategory = (this.monthlyAffectations as MonthlyAffectation[]).filter((monthlyAffectation) => monthlyAffectation.affectation.categoryId === category.id);
+      let affectationsForCategory = (this.monthlyAffectations as MonthlyAffectation[]).filter((monthlyAffectation) => monthlyAffectation.affectation.categoryId === category.key);
       return affectationsForCategory.map((value) => value.affectation.amount).reduce((previousValue, currentValue) => previousValue + currentValue);
     }
   }
